@@ -5,3 +5,4 @@ Flask-Login
 python-dotenv
 email-validator
 Pillow
+gunicorn
