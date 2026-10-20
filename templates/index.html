@@ -1,0 +1,982 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gold Lotus Innovations builds modern software solutions, web applications and AI-powered projects.">
+    <meta name="theme-color" content="#080808">
+
+    <title>Gold Lotus Innovations | Innovate. Build. Evolve.</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        :root {
+            --gold: #d4af62;
+            --gold-light: #f0d28b;
+            --black: #080808;
+            --card-bg: #111111;
+            --white: #ffffff;
+            --gray: #b5b5b5;
+            --border: #292015;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 30px;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        section {
+            scroll-margin-top: 20px;
+        }
+
+        /* NAVIGATION */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 8%;
+            background: rgba(8, 8, 8, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 200px;
+            height: 85px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.04);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            font-size: 14px;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links .nav-contact {
+            padding: 10px 18px;
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            color: var(--gold);
+        }
+
+        .nav-links .nav-contact:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* ADMIN LOGIN BUTTON */
+
+        .nav-links .nav-admin {
+            display: inline-block;
+            padding: 9px 15px;
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            color: var(--gold);
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links .nav-admin:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 83vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 75px 20px;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    ellipse at 50% 35%,
+                    rgba(212, 175, 98, 0.12),
+                    transparent 65%
+                ),
+                var(--black);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border: 1px solid rgba(212, 175, 98, 0.08);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .tagline {
+            color: var(--gold);
+            letter-spacing: 5px;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 82px);
+            line-height: 1.12;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero-description {
+            color: var(--gray);
+            max-width: 650px;
+            margin: 0 auto 35px;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--gold);
+            color: var(--black);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: var(--gold-light);
+            border-color: var(--gold-light);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 98, 0.15);
+        }
+
+        .button-outline {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        .button-outline:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* COMMON SECTIONS */
+
+        .section {
+            padding: 85px 8%;
+            text-align: center;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            color: var(--white);
+            font-size: clamp(29px, 4vw, 43px);
+            margin-bottom: 18px;
+        }
+
+        .section-title span {
+            color: var(--gold);
+        }
+
+        .section-description {
+            max-width: 720px;
+            margin: 0 auto;
+            color: var(--gray);
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        /* ABOUT */
+
+        .about-section {
+            background: #0b0b0b;
+            border-top: 1px solid rgba(212, 175, 98, 0.08);
+            border-bottom: 1px solid rgba(212, 175, 98, 0.08);
+        }
+
+        .about-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* SERVICES */
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            max-width: 1100px;
+            margin: 45px auto 0;
+        }
+
+        .service-card {
+            background: linear-gradient(145deg, #151515, #0c0c0c);
+            border: 1px solid #302719;
+            border-radius: 10px;
+            padding: 32px 24px;
+            text-align: left;
+            transition: transform 0.3s ease, border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 30px rgba(212, 175, 98, 0.08);
+        }
+
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            color: var(--gold);
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* PROJECTS */
+
+        .projects-section {
+            background:
+                radial-gradient(
+                    ellipse at 50% 0%,
+                    rgba(212, 175, 98, 0.06),
+                    transparent 55%
+                ),
+                #0b0b0b;
+            border-top: 1px solid rgba(212, 175, 98, 0.08);
+            border-bottom: 1px solid rgba(212, 175, 98, 0.08);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 28px;
+            max-width: 1050px;
+            margin: 45px auto 0;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            padding: 38px 30px;
+            text-align: left;
+            background: linear-gradient(145deg, #151515, #0c0c0c);
+            border: 1px solid #3b3020;
+            border-radius: 12px;
+            transition: transform 0.3s ease, border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--gold),
+                transparent
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 35px rgba(212, 175, 98, 0.10);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-icon {
+            font-size: 38px;
+            margin-bottom: 22px;
+        }
+
+        .project-category {
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .project-card h3 {
+            color: var(--white);
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .project-subtitle {
+            color: var(--gold);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .project-text {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.9;
+            margin-bottom: 24px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .project-tags span {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            padding: 7px 10px;
+            border: 1px solid #3b3020;
+            border-radius: 4px;
+        }
+
+        /* CONTACT */
+
+        .contact-section {
+            background: var(--black);
+        }
+
+        .contact-box {
+            max-width: 850px;
+            margin: 35px auto 0;
+            padding: 40px 25px;
+            background: linear-gradient(145deg, #151515, #0c0c0c);
+            border: 1px solid #3b3020;
+            border-radius: 10px;
+        }
+
+        .contact-box > p {
+            color: var(--gray);
+            line-height: 1.9;
+            margin-bottom: 25px;
+        }
+
+        .contact-note {
+            color: #888888;
+            font-size: 13px;
+            margin-top: 25px;
+        }
+
+        /* INQUIRY FORM */
+
+        .inquiry-form {
+            max-width: 600px;
+            margin: 30px auto 0;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #090909;
+            color: #ffffff;
+            border: 1px solid #3b3020;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888888;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .form-group select option {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .submit-button {
+            width: 100%;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .form-message {
+            padding: 14px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .form-message.success {
+            background: #102416;
+            border: 1px solid #32834a;
+            color: #9be6ae;
+        }
+
+        .form-message.error {
+            background: #2b1111;
+            border: 1px solid #a94444;
+            color: #ffaaaa;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 28px 20px;
+            text-align: center;
+            color: #777777;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            background: #060606;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 1100px) {
+            nav {
+                padding: 12px 5%;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .logo img {
+                width: 175px;
+                height: 78px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .services-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            nav {
+                position: relative;
+                flex-direction: column;
+                gap: 12px;
+                padding: 10px 5% 18px;
+            }
+
+            .logo img {
+                width: 180px;
+                height: 78px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .nav-links .nav-contact,
+            .nav-links .nav-admin {
+                padding: 6px 10px;
+            }
+
+            .hero {
+                min-height: 70vh;
+                padding: 55px 20px;
+            }
+
+            .tagline {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 65px 6%;
+            }
+
+            .services-container,
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card,
+            .project-card {
+                padding: 28px 23px;
+            }
+
+            .contact-box {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <nav>
+        <div class="logo">
+            <a href="#home" aria-label="Gold Lotus Innovations Home">
+                <img
+                    src="{{ url_for('static', filename='images/Logo image.png') }}"
+                    alt="Gold Lotus Innovations Logo">
+            </a>
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact" class="nav-contact">Contact Us</a>
+            <a href="{{ url_for('admin_login') }}" class="nav-admin">
+                Admin Login
+            </a>
+        </div>
+    </nav>
+
+    <!-- HOME SECTION -->
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+
+            <p class="tagline">INNOVATE. BUILD. EVOLVE.</p>
+
+            <h1>
+                Ideas Into<br>
+                <span>Innovation.</span>
+            </h1>
+
+            <p class="hero-description">
+                We build modern software solutions that transform
+                ideas into meaningful digital experiences.
+                Welcome to Gold Lotus Innovations, where technology
+                meets creativity.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#services" class="button">Explore Our Services</a>
+                <a href="#projects" class="button button-outline">
+                    Discover Our Projects
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+
+    <section id="about" class="section about-section">
+        <div class="about-content">
+
+            <p class="section-label">WHO WE ARE</p>
+
+            <h2 class="section-title">
+                About <span>Gold Lotus</span>
+            </h2>
+
+            <p class="section-description">
+                Gold Lotus Innovations is a software development brand
+                focused on building practical, modern and reliable
+                digital solutions. We explore innovative technologies
+                to turn ideas into useful software applications.
+                Our focus is on creativity, problem-solving and
+                continuous improvement.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+
+    <section id="services" class="section">
+
+        <p class="section-label">WHAT WE DO</p>
+
+        <h2 class="section-title">
+            Our <span>Services</span>
+        </h2>
+
+        <p class="section-description">
+            Technology-focused services to help bring software ideas
+            to life through thoughtful development and innovation.
+        </p>
+
+        <div class="services-container">
+
+            <article class="service-card">
+                <div class="service-icon" aria-hidden="true">💻</div>
+                <h3>Custom Software Development</h3>
+                <p>
+                    Software solutions designed around specific
+                    requirements, workflows and practical needs.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon" aria-hidden="true">🌐</div>
+                <h3>Web Application Development</h3>
+                <p>
+                    Modern web applications with responsive
+                    interfaces and user-friendly experiences.
+                </p>
+            </article>
+
+            <article class="service-card">
+                <div class="service-icon" aria-hidden="true">🤖</div>
+                <h3>AI-Based Projects</h3>
+                <p>
+                    Exploring artificial intelligence and data-driven
+                    solutions for practical, real-world challenges.
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+
+    <section id="projects" class="section projects-section">
+
+        <p class="section-label">OUR WORK</p>
+
+        <h2 class="section-title">
+            Projects That <span>Innovate.</span>
+        </h2>
+
+        <p class="section-description">
+            Explore our technology projects built around artificial
+            intelligence, intelligent software and real-world
+            problem-solving.
+        </p>
+
+        <div class="projects-container">
+
+            <article class="project-card">
+
+                <div class="project-icon" aria-hidden="true">🛡️</div>
+
+                <p class="project-category">ARTIFICIAL INTELLIGENCE</p>
+
+                <h3>TRINETRA AI</h3>
+
+                <p class="project-subtitle">
+                    Smart Army Surveillance System
+                </p>
+
+                <p class="project-text">
+                    An AI-based surveillance project focused on
+                    camera monitoring, threat analytics and
+                    intelligent security alerts.
+                </p>
+
+                <div class="project-tags">
+                    <span>Python</span>
+                    <span>AI</span>
+                    <span>Computer Vision</span>
+                </div>
+
+            </article>
+
+            <article class="project-card">
+
+                <div class="project-icon" aria-hidden="true">🌱</div>
+
+                <p class="project-category">SMART AGRICULTURE</p>
+
+                <h3>AGROVISION AI</h3>
+
+                <p class="project-subtitle">
+                    Disease &amp; Weather Detection System
+                </p>
+
+                <p class="project-text">
+                    An AI-powered agriculture project designed to
+                    support crop disease detection and provide
+                    weather information for smarter farming.
+                </p>
+
+                <div class="project-tags">
+                    <span>Python</span>
+                    <span>AI</span>
+                    <span>Agriculture</span>
+                </div>
+
+            </article>
+
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION WITH INQUIRY FORM -->
+
+    <section id="contact" class="section contact-section">
+
+        <p class="section-label">LET'S CONNECT</p>
+
+        <h2 class="section-title">
+            Have an Idea? <span>Let's Build It.</span>
+        </h2>
+
+        <div class="contact-box">
+
+            <p>
+                Have a software project idea or want to discuss
+                a technology solution? Tell us about your idea.
+            </p>
+
+            <!-- SUCCESS AND ERROR MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="form-message {{ category }}" role="status">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- CUSTOMER INQUIRY FORM -->
+
+            <form
+                action="{{ url_for('submit_inquiry') }}"
+                method="POST"
+                class="inquiry-form">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        maxlength="100"
+                        autocomplete="name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        maxlength="254"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service Required</label>
+
+                    <select id="service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="Custom Software Development">
+                            Custom Software Development
+                        </option>
+                        <option value="Web Application Development">
+                            Web Application Development
+                        </option>
+                        <option value="AI-Based Projects">
+                            AI-Based Projects
+                        </option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="details">Project Details</label>
+
+                    <textarea
+                        id="details"
+                        name="details"
+                        rows="5"
+                        maxlength="5000"
+                        placeholder="Tell us about your project idea..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="button submit-button">
+                    Submit Inquiry
+                </button>
+
+            </form>
+
+            <p class="contact-note">
+                Gold Lotus Innovations &mdash; Innovate. Build. Evolve.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>
+            &copy; 2026 <span>Gold Lotus Innovations</span>.
+            All rights reserved.
+        </p>
+
+        <p style="margin-top: 8px;">
+            Innovate. Build. Evolve.
+        </p>
+    </footer>
+
+</body>
+</html>
