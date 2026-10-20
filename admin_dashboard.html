@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Gold Lotus Innovations</title>
+
+    <!-- Updated Admin Dashboard CSS Link -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body class="admin-dashboard-page">
+
+    <header class="dashboard-header">
+        <div class="dashboard-brand">
+            <img
+                src="{{ url_for('static', filename='images/Logo image.png') }}"
+                alt="Gold Lotus Innovations Logo"
+                class="dashboard-logo"
+            >
+
+            <div>
+                <h1>Gold Lotus Innovations</h1>
+                <p>Admin Dashboard</p>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <a href="{{ url_for('home') }}">View Website</a>
+            <a href="{{ url_for('admin_logout') }}"
+               class="logout-button">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+
+        <section class="welcome-section">
+            <div>
+                <p class="section-label">ADMINISTRATION</p>
+                <h2>Welcome to Dashboard</h2>
+                <p>Manage customer inquiries and track their progress.</p>
+            </div>
+        </section>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="dashboard-messages">
+                    {% for category, message in messages %}
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Dashboard Statistics -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <p>Total Inquiries</p>
+                <h3>{{ total_inquiries }}</h3>
+                <span>All customer requests</span>
+            </div>
+
+            <div class="stat-card">
+                <p>New Inquiries</p>
+                <h3>{{ new_inquiries }}</h3>
+                <span>Awaiting review</span>
+            </div>
+
+            <div class="stat-card">
+                <p>In Progress</p>
+                <h3>{{ in_progress }}</h3>
+                <span>Currently being handled</span>
+            </div>
+
+            <div class="stat-card">
+                <p>Completed</p>
+                <h3>{{ completed }}</h3>
+                <span>Successfully completed</span>
+            </div>
+
+        </section>
+
+        <!-- Customer Inquiries -->
+        <section class="inquiries-section" id="inquiries">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">CUSTOMER MANAGEMENT</p>
+                    <h2>Customer Inquiries</h2>
+                </div>
+
+                <span class="inquiry-count">
+                    {{ total_inquiries }} Total
+                </span>
+            </div>
+
+            {% if inquiries %}
+
+                <div class="table-wrapper">
+                    <table class="inquiries-table">
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Service</th>
+                                <th>Project Details</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for inquiry in inquiries %}
+                                <tr>
+                                    <td>#{{ inquiry['id'] }}</td>
+
+                                    <td>
+                                        <div class="customer-name">
+                                            {{ inquiry['name'] }}
+                                        </div>
+
+                                        <a class="customer-email"
+                                           href="mailto:{{ inquiry['email'] }}">
+                                            {{ inquiry['email'] }}
+                                        </a>
+                                    </td>
+
+                                    <td>{{ inquiry['service'] }}</td>
+
+                                    <td class="details-cell">
+                                        {{ inquiry['details'] }}
+                                    </td>
+
+                                    <td>{{ inquiry['created_at'] }}</td>
+
+                                    <td>
+                                        <span class="status-badge {% if inquiry['status'] == 'New' %}status-new{% elif inquiry['status'] == 'In Progress' %}status-progress{% elif inquiry['status'] == 'Completed' %}status-completed{% endif %}">
+                                            {{ inquiry['status'] }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <form
+                                            action="{{ url_for('update_inquiry_status', inquiry_id=inquiry['id']) }}"
+                                            method="POST"
+                                            class="status-form">
+
+                                            <select name="status" required>
+                                                <option value="New"
+                                                    {% if inquiry['status'] == 'New' %}selected{% endif %}>
+                                                    New
+                                                </option>
+
+                                                <option value="In Progress"
+                                                    {% if inquiry['status'] == 'In Progress' %}selected{% endif %}>
+                                                    In Progress
+                                                </option>
+
+                                                <option value="Completed"
+                                                    {% if inquiry['status'] == 'Completed' %}selected{% endif %}>
+                                                    Completed
+                                                </option>
+                                            </select>
+
+                                            <button type="submit"
+                                                    class="update-button">
+                                                Update
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+                    <h3>No inquiries yet</h3>
+                    <p>
+                        Customer inquiries submitted through your website
+                        will appear here.
+                    </p>
+                    <a href="{{ url_for('home') }}">Visit Website</a>
+                </div>
+
+            {% endif %}
+
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>© 2026 Gold Lotus Innovations. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
