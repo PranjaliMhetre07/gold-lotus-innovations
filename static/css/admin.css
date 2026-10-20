@@ -15,7 +15,9 @@
     --green: #54d6a0;
 }
 
-/* RESET */
+/* =====================================
+   RESET
+===================================== */
 
 * {
     box-sizing: border-box;
@@ -32,6 +34,7 @@ html {
 body.admin-dashboard-page,
 body.admin-login-page {
     min-height: 100vh;
+    width: 100%;
     background: var(--background);
     color: var(--text);
     font-family: "Segoe UI", Arial, sans-serif;
@@ -51,6 +54,18 @@ a {
 
 a:hover {
     color: #fff;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* =====================================
@@ -77,15 +92,21 @@ a:hover {
     flex: 1 1 auto;
 }
 
-/* FIXED ADMIN LOGO SIZE */
+/* Dashboard Logo */
 
 .dashboard-logo {
     width: 55px;
     height: 45px;
+    min-width: 55px;
     max-width: 55px;
     object-fit: contain;
+    object-position: center;
     display: block;
     flex: 0 0 55px;
+}
+
+.dashboard-brand > div {
+    min-width: 0;
 }
 
 .dashboard-brand h1 {
@@ -103,7 +124,9 @@ a:hover {
     margin-top: 2px;
 }
 
-/* NAVIGATION */
+/* =====================================
+   NAVIGATION
+===================================== */
 
 .dashboard-nav {
     display: flex;
@@ -112,6 +135,7 @@ a:hover {
     flex-wrap: wrap;
     gap: 10px;
     flex: 0 1 auto;
+    min-width: 0;
 }
 
 .dashboard-nav a {
@@ -177,6 +201,7 @@ a:hover {
     line-height: 1.3;
     font-weight: 600;
     color: var(--text);
+    overflow-wrap: anywhere;
 }
 
 .welcome-section > div > p:last-child {
@@ -199,6 +224,7 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 13px;
+    overflow-wrap: anywhere;
 }
 
 .alert.success {
@@ -255,6 +281,7 @@ a:hover {
     color: var(--muted);
     font-size: 13px;
     font-weight: 500;
+    overflow-wrap: anywhere;
 }
 
 .stat-card h3 {
@@ -269,6 +296,7 @@ a:hover {
 .stat-card span {
     color: #888177;
     font-size: 12px;
+    overflow-wrap: anywhere;
 }
 
 /* =====================================
@@ -313,9 +341,12 @@ a:hover {
 ===================================== */
 
 .table-wrapper {
+    display: block;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     overflow-x: auto;
+    overflow-y: hidden;
     border: 1px solid #2c2c2c;
     border-radius: 8px;
     -webkit-overflow-scrolling: touch;
@@ -442,6 +473,7 @@ a:hover {
 
 .update-button {
     width: 100%;
+    min-height: 35px;
     padding: 8px 12px;
     border: 1px solid var(--gold);
     border-radius: 6px;
@@ -478,6 +510,7 @@ a:hover {
 .empty-state p {
     color: var(--muted);
     margin-bottom: 20px;
+    overflow-wrap: anywhere;
 }
 
 .empty-state a {
@@ -499,13 +532,14 @@ a:hover {
     border-top: 1px solid #29251d;
     color: #777168;
     font-size: 12px;
+    overflow-wrap: anywhere;
 }
 
 /* =====================================
    ADMIN LOGIN PAGE
 ===================================== */
 
-.admin-login-page {
+body.admin-login-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -515,6 +549,7 @@ a:hover {
 .login-container {
     width: 100%;
     max-width: 440px;
+    min-width: 0;
 }
 
 .login-card {
@@ -533,12 +568,14 @@ a:hover {
     height: 80px;
     max-width: 100%;
     object-fit: contain;
+    object-position: center;
     margin: 0 auto 15px;
 }
 
 .login-card h1 {
     color: var(--gold-light);
     font-size: 26px;
+    overflow-wrap: anywhere;
 }
 
 .login-subtitle {
@@ -559,6 +596,7 @@ a:hover {
 }
 
 .form-group input {
+    display: block;
     width: 100%;
     min-width: 0;
     padding: 12px;
@@ -574,7 +612,9 @@ a:hover {
 }
 
 .login-button {
+    display: block;
     width: 100%;
+    min-height: 42px;
     padding: 12px;
     border: none;
     border-radius: 7px;
@@ -601,10 +641,11 @@ a:hover {
 }
 
 /* =====================================
-   RESPONSIVE DESIGN
+   TABLET RESPONSIVE DESIGN
 ===================================== */
 
-@media (max-width: 1000px) {
+@media screen and (max-width: 1000px) {
+
     .dashboard-header {
         padding-left: 4%;
         padding-right: 4%;
@@ -624,57 +665,236 @@ a:hover {
     }
 }
 
-/* TABLET AND MOBILE HEADER */
+/* =====================================
+   MOBILE HEADER
+===================================== */
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
+
     .dashboard-header {
-        align-items: flex-start;
+        width: 100%;
+        min-height: auto;
+        padding: 12px 14px;
+        display: flex;
         flex-direction: column;
-        gap: 14px;
-        padding: 14px 5%;
+        align-items: stretch;
+        gap: 12px;
     }
 
     .dashboard-brand {
-        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         gap: 10px;
+        width: 100%;
+        min-width: 0;
+        flex: 0 1 auto;
     }
 
     .dashboard-logo {
-        width: 48px;
+        width: 42px;
         height: 42px;
-        max-width: 48px;
-        flex-basis: 48px;
+        min-width: 42px;
+        max-width: 42px;
+        flex: 0 0 42px;
+        object-fit: contain;
+    }
+
+    .dashboard-brand > div {
+        flex: 1;
+        min-width: 0;
     }
 
     .dashboard-brand h1 {
-        font-size: 18px;
+        font-size: 17px;
+        line-height: 1.3;
+        letter-spacing: 0.2px;
+        overflow-wrap: anywhere;
+    }
+
+    .dashboard-brand p {
+        font-size: 11px;
+        margin-top: 3px;
     }
 
     .dashboard-nav {
-        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        min-width: 0;
         gap: 8px;
     }
 
     .dashboard-nav a {
-        padding: 8px 11px;
+        padding: 8px 12px;
+        min-height: 36px;
         font-size: 12px;
     }
 
+    /* Main Content */
+
+    .dashboard-main {
+        width: 100%;
+        padding: 22px 14px;
+    }
+
+    .welcome-section {
+        display: block;
+        margin-bottom: 20px;
+    }
+
     .welcome-section h2 {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .welcome-section > div > p:last-child {
+        font-size: 13px;
+    }
+
+    .section-label {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+    }
+
+    /* Statistics Cards */
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        min-width: 0;
+        min-height: 115px;
+        padding: 14px 12px;
+        border-radius: 9px;
+    }
+
+    .stat-card p {
+        font-size: 12px;
+    }
+
+    .stat-card h3 {
+        font-size: 27px;
+        margin: 8px 0 4px;
+    }
+
+    .stat-card span {
+        font-size: 11px;
+    }
+
+    /* Customer Inquiries */
+
+    .inquiries-section {
+        width: 100%;
+        min-width: 0;
+        padding: 13px;
+        margin-bottom: 20px;
+    }
+
+    .section-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 17px;
     }
 
     .section-heading h2 {
-        font-size: 21px;
+        font-size: 20px;
+    }
+
+    .inquiry-count {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    /* Keep the table scrollable inside its own area */
+
+    .table-wrapper {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .inquiries-table {
+        width: 950px;
+        min-width: 950px;
+    }
+
+    /* Empty State */
+
+    .empty-state {
+        padding: 32px 14px;
+    }
+
+    .empty-state h3 {
+        font-size: 18px;
+    }
+
+    .empty-state p {
+        font-size: 13px;
+    }
+
+    /* Login Page */
+
+    body.admin-login-page {
+        padding: 16px;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 440px;
+    }
+
+    .login-card {
+        width: 100%;
+        padding: 24px 18px;
+    }
+
+    .login-logo {
+        width: 90px;
+        height: 65px;
+        margin-bottom: 12px;
+    }
+
+    .login-card h1 {
+        font-size: 22px;
+    }
+
+    .login-subtitle {
+        font-size: 13px;
+    }
+
+    .form-group input {
+        font-size: 16px;
+    }
+
+    /* Footer */
+
+    .dashboard-footer {
+        padding: 18px 8px;
+        font-size: 11px;
     }
 }
 
-/* SMALL MOBILE SCREENS */
+/* =====================================
+   SMALL MOBILE SCREENS
+===================================== */
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
+
     .dashboard-main {
-        padding: 24px 4% 18px;
+        padding: 22px 12px 18px;
     }
 
     .welcome-section {
@@ -684,73 +904,151 @@ a:hover {
     }
 
     .welcome-section h2 {
-        font-size: 22px;
+        font-size: 21px;
     }
 
     .stats-grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 13px;
-        margin-bottom: 25px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
     }
 
     .stat-card {
-        min-height: 120px;
-        padding: 19px;
+        min-height: 112px;
+        padding: 13px 10px;
     }
 
     .stat-card h3 {
-        font-size: 30px;
-    }
-
-    .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
+        font-size: 26px;
     }
 
     .inquiries-section {
-        padding: 14px;
-        margin-bottom: 20px;
-    }
-
-    .inquiries-table {
-        min-width: 950px;
-    }
-
-    .login-card {
-        padding: 25px 20px;
-    }
-
-    .login-logo {
-        width: 105px;
-        height: 70px;
-    }
-
-    .login-card h1 {
-        font-size: 23px;
-    }
-}
-
-/* VERY SMALL MOBILE SCREENS */
-
-@media (max-width: 360px) {
-    .dashboard-brand h1 {
-        font-size: 16px;
-    }
-
-    .dashboard-brand p {
-        font-size: 11px;
-    }
-
-    .dashboard-nav a {
-        padding: 7px 9px;
-        font-size: 11px;
+        padding: 12px;
     }
 
     .section-heading h2 {
         font-size: 19px;
     }
 
+    .inquiries-table {
+        width: 950px;
+        min-width: 950px;
+    }
+
+    .login-card {
+        padding: 23px 17px;
+    }
+
+    .login-logo {
+        width: 85px;
+        height: 62px;
+    }
+
+    .login-card h1 {
+        font-size: 21px;
+    }
+}
+
+/* =====================================
+   VERY SMALL MOBILE SCREENS
+===================================== */
+
+@media screen and (max-width: 380px) {
+
+    .dashboard-header {
+        padding: 10px;
+    }
+
+    .dashboard-logo {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        max-width: 36px;
+        flex-basis: 36px;
+    }
+
+    .dashboard-brand {
+        gap: 8px;
+    }
+
+    .dashboard-brand h1 {
+        font-size: 15px;
+    }
+
+    .dashboard-brand p {
+        font-size: 10px;
+    }
+
+    .dashboard-nav {
+        gap: 7px;
+    }
+
+    .dashboard-nav a {
+        padding: 7px 9px;
+        min-height: 34px;
+        font-size: 11px;
+    }
+
+    .dashboard-main {
+        padding: 18px 10px;
+    }
+
+    .welcome-section h2 {
+        font-size: 20px;
+    }
+
+    .stats-grid {
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 12px 9px;
+        min-height: 105px;
+    }
+
+    .stat-card p {
+        font-size: 11px;
+    }
+
+    .stat-card h3 {
+        font-size: 24px;
+    }
+
+    .stat-card span {
+        font-size: 10px;
+    }
+
+    .inquiries-section {
+        padding: 10px;
+    }
+
+    .section-heading h2 {
+        font-size: 18px;
+    }
+
     .login-card {
         padding: 22px 16px;
+    }
+
+    .login-card h1 {
+        font-size: 20px;
+    }
+}
+
+/* =====================================
+   ACCESSIBILITY: REDUCED MOTION
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
