@@ -1,208 +1,824 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="theme-color" content="#090909">
+
     <title>Admin Dashboard | Gold Lotus Innovations</title>
 
-    <!-- Updated Admin Dashboard CSS Link -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/admin.css') }}">
+    <!-- External CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css', v=3) }}"
+    >
+
+    <style>
+        /* ==============================
+           BASE STYLES
+        ============================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            background-color: #090909 !important;
+            color-scheme: dark;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #090909 !important;
+            color: #f5f5f5;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        select {
+            font: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .dashboard-header {
+            width: 100%;
+            min-height: 78px;
+            padding: 12px 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+
+            background-color: #111111;
+            border-bottom: 1px solid #4b3a16;
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .dashboard-logo {
+            display: block;
+
+            width: 48px;
+            height: 48px;
+            max-width: 48px;
+
+            object-fit: contain;
+            object-position: center;
+
+            flex: 0 0 auto;
+        }
+
+        .brand-text {
+            min-width: 0;
+        }
+
+        .brand-text h1 {
+            margin: 0;
+            color: #d6b45b;
+            font-size: 19px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .brand-text p {
+            margin: 3px 0 0;
+            color: #aaaaaa;
+            font-size: 12px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .header-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 38px;
+            padding: 10px 15px;
+
+            border: 1px solid #b99742;
+            border-radius: 6px;
+
+            background-color: transparent;
+            color: #e4c66e;
+
+            font-size: 13px;
+            white-space: nowrap;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .header-btn:hover {
+            background-color: #d6b45b;
+            color: #111111;
+        }
+
+        /* ==============================
+           MAIN CONTAINER
+        ============================== */
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px;
+
+            background-color: #090909;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h2 {
+            margin: 0 0 8px;
+            color: #e0bf61;
+            font-size: 27px;
+            line-height: 1.4;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #aaaaaa;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           DASHBOARD CARDS
+        ============================== */
+
+        .dashboard-card {
+            width: 100%;
+            min-width: 0;
+            margin-bottom: 24px;
+            padding: 22px;
+
+            background-color: #121212;
+            color: #f5f5f5;
+
+            border: 1px solid #302817;
+            border-radius: 10px;
+        }
+
+        .card-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .card-heading h3 {
+            margin: 0;
+            color: #e0bf61;
+            font-size: 19px;
+            line-height: 1.5;
+        }
+
+        /* ==============================
+           FLASH MESSAGES
+        ============================== */
+
+        .flash-message {
+            padding: 14px 16px;
+            margin-bottom: 18px;
+
+            background-color: #151515;
+            color: #e4c66e;
+
+            border: 1px solid #62502b;
+            border-radius: 7px;
+
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .flash-message.success {
+            border-color: #286b43;
+            color: #9ee2b4;
+        }
+
+        .flash-message.error {
+            border-color: #8a3333;
+            color: #ffaaaa;
+        }
+
+        /* ==============================
+           INQUIRY TABLE
+        ============================== */
+
+        .table-wrapper {
+            width: 100%;
+            max-width: 100%;
+
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+
+            background-color: #121212;
+
+            border: 1px solid #302817;
+            border-radius: 7px;
+        }
+
+        .inquiry-table {
+            width: 100%;
+            min-width: 760px;
+
+            border-collapse: collapse;
+            text-align: left;
+
+            background-color: #121212;
+        }
+
+        .inquiry-table th,
+        .inquiry-table td {
+            padding: 13px 12px;
+
+            border-bottom: 1px solid #302817;
+
+            vertical-align: top;
+
+            font-size: 13px;
+            line-height: 1.6;
+
+            overflow-wrap: anywhere;
+        }
+
+        .inquiry-table th {
+            background-color: #211b10;
+            color: #e0bf61;
+            font-weight: 600;
+        }
+
+        .inquiry-table td {
+            background-color: #121212;
+            color: #dddddd;
+        }
+
+        .inquiry-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .inquiry-table tbody tr:hover td {
+            background-color: #19160f;
+        }
+
+        .empty-message {
+            padding: 25px !important;
+            color: #aaaaaa !important;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           STATUS UPDATE FORM
+        ============================== */
+
+        .status-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .status-select {
+            width: 145px;
+            max-width: 100%;
+            min-height: 36px;
+            padding: 7px;
+
+            background-color: #0b0b0b;
+            color: #f5f5f5;
+
+            border: 1px solid #62502b;
+            border-radius: 5px;
+
+            font-size: 12px;
+        }
+
+        .status-select option {
+            background-color: #111111;
+            color: #ffffff;
+        }
+
+        .small-btn {
+            min-height: 36px;
+            padding: 8px 12px;
+
+            background-color: #d6b45b;
+            color: #111111;
+
+            border: none;
+            border-radius: 5px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: background-color 0.2s ease;
+        }
+
+        .small-btn:hover {
+            background-color: #f0d783;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .dashboard-footer {
+            width: 100%;
+            padding: 18px 20px;
+
+            background-color: #090909;
+            color: #888888;
+
+            text-align: center;
+            font-size: 12px;
+
+            border-top: 1px solid #302817;
+        }
+
+        /* ==============================
+           TABLET RESPONSIVE
+        ============================== */
+
+        @media screen and (max-width: 768px) {
+
+            .dashboard-header {
+                padding: 12px 16px;
+                gap: 12px;
+            }
+
+            .dashboard-logo {
+                width: 38px;
+                height: 38px;
+                max-width: 38px;
+            }
+
+            .brand-text h1 {
+                font-size: 16px;
+            }
+
+            .dashboard-container {
+                padding: 22px 16px;
+            }
+
+            .page-heading h2 {
+                font-size: 23px;
+            }
+
+            .dashboard-card {
+                padding: 16px;
+            }
+
+            .card-heading h3 {
+                font-size: 17px;
+            }
+        }
+
+        /* ==============================
+           MOBILE RESPONSIVE
+        ============================== */
+
+        @media screen and (max-width: 480px) {
+
+            html,
+            body {
+                width: 100%;
+                background-color: #090909 !important;
+            }
+
+            .dashboard-header {
+                width: 100%;
+                min-height: auto;
+                padding: 12px;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+
+                background-color: #111111 !important;
+            }
+
+            .brand-area {
+                width: 100%;
+                min-width: 0;
+
+                display: flex;
+                align-items: center;
+                gap: 9px;
+
+                flex: 1 1 100%;
+            }
+
+            .dashboard-logo {
+                width: 30px !important;
+                height: 30px !important;
+                max-width: 30px !important;
+
+                object-fit: contain !important;
+
+                flex: 0 0 30px;
+            }
+
+            .brand-text {
+                min-width: 0;
+            }
+
+            .brand-text h1 {
+                font-size: 15px;
+                line-height: 1.35;
+            }
+
+            .brand-text p {
+                margin-top: 3px;
+                font-size: 11px;
+            }
+
+            .header-actions {
+                width: 100%;
+
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .header-btn {
+                width: 100%;
+                min-width: 0;
+                min-height: 36px;
+
+                padding: 9px 7px;
+
+                font-size: 12px;
+                text-align: center;
+            }
+
+            .dashboard-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 18px 12px;
+
+                background-color: #090909 !important;
+            }
+
+            .page-heading {
+                margin-bottom: 18px;
+            }
+
+            .page-heading h2 {
+                font-size: 21px;
+            }
+
+            .page-heading p {
+                font-size: 13px;
+            }
+
+            .dashboard-card {
+                width: 100%;
+                min-width: 0;
+
+                padding: 13px;
+                margin-bottom: 16px;
+
+                border-radius: 8px;
+
+                background-color: #121212 !important;
+            }
+
+            .card-heading {
+                margin-bottom: 14px;
+            }
+
+            .card-heading h3 {
+                font-size: 16px;
+            }
+
+            .flash-message {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                overscroll-behavior-x: contain;
+            }
+
+            .inquiry-table {
+                width: 100%;
+                min-width: 760px;
+            }
+
+            .inquiry-table th,
+            .inquiry-table td {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .dashboard-footer {
+                padding: 16px 10px;
+                font-size: 11px;
+                background-color: #090909 !important;
+            }
+        }
+
+        /* ==============================
+           VERY SMALL MOBILE
+        ============================== */
+
+        @media screen and (max-width: 360px) {
+
+            .dashboard-logo {
+                width: 27px !important;
+                height: 27px !important;
+                max-width: 27px !important;
+                flex-basis: 27px;
+            }
+
+            .brand-area {
+                gap: 7px;
+            }
+
+            .brand-text h1 {
+                font-size: 13px;
+            }
+
+            .brand-text p {
+                font-size: 10px;
+            }
+
+            .dashboard-container {
+                padding-right: 9px;
+                padding-left: 9px;
+            }
+
+            .dashboard-card {
+                padding: 10px;
+            }
+
+            .page-heading h2 {
+                font-size: 19px;
+            }
+        }
+
+        /* Respect reduced-motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 
-<body class="admin-dashboard-page">
+<body>
 
+    <!-- HEADER -->
     <header class="dashboard-header">
-        <div class="dashboard-brand">
+
+        <div class="brand-area">
+
             <img
                 src="{{ url_for('static', filename='images/Logo image.png') }}"
                 alt="Gold Lotus Innovations Logo"
                 class="dashboard-logo"
             >
 
-            <div>
+            <div class="brand-text">
                 <h1>Gold Lotus Innovations</h1>
-                <p>Admin Dashboard</p>
+                <p>Admin Control Panel</p>
             </div>
+
         </div>
 
-        <nav class="dashboard-nav">
-            <a href="{{ url_for('home') }}">View Website</a>
-            <a href="{{ url_for('admin_logout') }}"
-               class="logout-button">Logout</a>
-        </nav>
+        <div class="header-actions">
+
+            <a
+                href="{{ url_for('home') }}"
+                class="header-btn"
+            >
+                View Website
+            </a>
+
+            <a
+                href="{{ url_for('admin_logout') }}"
+                class="header-btn"
+            >
+                Logout
+            </a>
+
+        </div>
+
     </header>
 
-    <main class="dashboard-main">
 
-        <section class="welcome-section">
-            <div>
-                <p class="section-label">ADMINISTRATION</p>
-                <h2>Welcome to Dashboard</h2>
-                <p>Manage customer inquiries and track their progress.</p>
-            </div>
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard-container">
+
+        <section class="page-heading">
+
+            <h2>Admin Dashboard</h2>
+
+            <p>
+                Manage customer inquiries for Gold Lotus Innovations.
+            </p>
+
         </section>
 
+
+        <!-- FLASH MESSAGES -->
         {% with messages = get_flashed_messages(with_categories=true) %}
+
             {% if messages %}
-                <div class="dashboard-messages">
-                    {% for category, message in messages %}
-                        <div class="alert {{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
+
+                {% for category, message in messages %}
+
+                    <div
+                        class="flash-message {{ category }}"
+                        role="status"
+                    >
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
             {% endif %}
+
         {% endwith %}
 
-        <!-- Dashboard Statistics -->
-        <section class="stats-grid">
 
-            <div class="stat-card">
-                <p>Total Inquiries</p>
-                <h3>{{ total_inquiries }}</h3>
-                <span>All customer requests</span>
+        <!-- CUSTOMER INQUIRIES -->
+        <section class="dashboard-card" id="inquiries">
+
+            <div class="card-heading">
+                <h3>Customer Inquiries</h3>
             </div>
 
-            <div class="stat-card">
-                <p>New Inquiries</p>
-                <h3>{{ new_inquiries }}</h3>
-                <span>Awaiting review</span>
-            </div>
+            <div class="table-wrapper">
 
-            <div class="stat-card">
-                <p>In Progress</p>
-                <h3>{{ in_progress }}</h3>
-                <span>Currently being handled</span>
-            </div>
+                <table class="inquiry-table">
 
-            <div class="stat-card">
-                <p>Completed</p>
-                <h3>{{ completed }}</h3>
-                <span>Successfully completed</span>
-            </div>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Service</th>
+                            <th>Project Details</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
 
-        </section>
+                    <tbody>
 
-        <!-- Customer Inquiries -->
-        <section class="inquiries-section" id="inquiries">
+                        {% for inquiry in inquiries %}
 
-            <div class="section-heading">
-                <div>
-                    <p class="section-label">CUSTOMER MANAGEMENT</p>
-                    <h2>Customer Inquiries</h2>
-                </div>
-
-                <span class="inquiry-count">
-                    {{ total_inquiries }} Total
-                </span>
-            </div>
-
-            {% if inquiries %}
-
-                <div class="table-wrapper">
-                    <table class="inquiries-table">
-
-                        <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Service</th>
-                                <th>Project Details</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Update Status</th>
+
+                                <td>
+                                    {{ inquiry['id'] }}
+                                </td>
+
+                                <td>
+                                    {{ inquiry['name'] }}
+                                </td>
+
+                                <td>
+                                    {{ inquiry['email'] }}
+                                </td>
+
+                                <td>
+                                    {{ inquiry['service'] }}
+                                </td>
+
+                                <td>
+                                    {{ inquiry['details'] }}
+                                </td>
+
+                                <td>
+                                    {{ inquiry['status'] }}
+                                </td>
+
+                                <td>
+
+                                    <form
+                                        action="{{ url_for('update_inquiry_status', inquiry_id=inquiry['id']) }}"
+                                        method="POST"
+                                        class="status-form"
+                                    >
+
+                                        <select
+                                            name="status"
+                                            class="status-select"
+                                            aria-label="Select inquiry status"
+                                        >
+
+                                            <option
+                                                value="New"
+                                                {% if inquiry['status'] == 'New' %}selected{% endif %}
+                                            >
+                                                New
+                                            </option>
+
+                                            <option
+                                                value="In Progress"
+                                                {% if inquiry['status'] == 'In Progress' %}selected{% endif %}
+                                            >
+                                                In Progress
+                                            </option>
+
+                                            <option
+                                                value="Completed"
+                                                {% if inquiry['status'] == 'Completed' %}selected{% endif %}
+                                            >
+                                                Completed
+                                            </option>
+
+                                        </select>
+
+                                        <button
+                                            type="submit"
+                                            class="small-btn"
+                                        >
+                                            Update
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
                             </tr>
-                        </thead>
 
-                        <tbody>
-                            {% for inquiry in inquiries %}
-                                <tr>
-                                    <td>#{{ inquiry['id'] }}</td>
+                        {% else %}
 
-                                    <td>
-                                        <div class="customer-name">
-                                            {{ inquiry['name'] }}
-                                        </div>
+                            <tr>
+                                <td colspan="7" class="empty-message">
+                                    No customer inquiries available yet.
+                                </td>
+                            </tr>
 
-                                        <a class="customer-email"
-                                           href="mailto:{{ inquiry['email'] }}">
-                                            {{ inquiry['email'] }}
-                                        </a>
-                                    </td>
+                        {% endfor %}
 
-                                    <td>{{ inquiry['service'] }}</td>
+                    </tbody>
 
-                                    <td class="details-cell">
-                                        {{ inquiry['details'] }}
-                                    </td>
+                </table>
 
-                                    <td>{{ inquiry['created_at'] }}</td>
-
-                                    <td>
-                                        <span class="status-badge {% if inquiry['status'] == 'New' %}status-new{% elif inquiry['status'] == 'In Progress' %}status-progress{% elif inquiry['status'] == 'Completed' %}status-completed{% endif %}">
-                                            {{ inquiry['status'] }}
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        <form
-                                            action="{{ url_for('update_inquiry_status', inquiry_id=inquiry['id']) }}"
-                                            method="POST"
-                                            class="status-form">
-
-                                            <select name="status" required>
-                                                <option value="New"
-                                                    {% if inquiry['status'] == 'New' %}selected{% endif %}>
-                                                    New
-                                                </option>
-
-                                                <option value="In Progress"
-                                                    {% if inquiry['status'] == 'In Progress' %}selected{% endif %}>
-                                                    In Progress
-                                                </option>
-
-                                                <option value="Completed"
-                                                    {% if inquiry['status'] == 'Completed' %}selected{% endif %}>
-                                                    Completed
-                                                </option>
-                                            </select>
-
-                                            <button type="submit"
-                                                    class="update-button">
-                                                Update
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-
-                    </table>
-                </div>
-
-            {% else %}
-
-                <div class="empty-state">
-                    <h3>No inquiries yet</h3>
-                    <p>
-                        Customer inquiries submitted through your website
-                        will appear here.
-                    </p>
-                    <a href="{{ url_for('home') }}">Visit Website</a>
-                </div>
-
-            {% endif %}
+            </div>
 
         </section>
-
-        <footer class="dashboard-footer">
-            <p>© 2026 Gold Lotus Innovations. All rights reserved.</p>
-        </footer>
 
     </main>
+
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+        &copy; 2026 Gold Lotus Innovations. All rights reserved.
+    </footer>
 
 </body>
 </html>
